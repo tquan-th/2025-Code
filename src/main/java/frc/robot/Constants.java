@@ -14,6 +14,7 @@ public class Constants {
     public static final int kElevatorLeftMotorId = 14; //3204 UPDATE
     public static final int kElevatorRightMotorId = 15; //3204 UPDATE
 
+// TODO: NEEDS TO BE TUNED----
     public static final double kP = 0.15;
     public static final double kI = 0;
     public static final double kD = 0.0;
@@ -35,6 +36,7 @@ public class Constants {
     public static final double kLowAlgaeHeight = 24.8;
     public static final double kHighAlgaeHeight = 42.5;
   }
+  //--
 
   public static class Coral {
     public static final int kLeftMotorId = 16; //3204 UPDATE

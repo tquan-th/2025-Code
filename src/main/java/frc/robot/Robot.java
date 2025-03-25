@@ -3,21 +3,25 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
+import edu.wpi.first.cameraserver.CameraServer;
+import frc.robot.controls.controllers.OperatorController;
 import frc.robot.subsystems.Algae;
 import frc.robot.subsystems.Coral;
 //import frc.robot.subsystems.Drivetrain;
-import frc.robot.controls.controllers.*;
+//import frc.robot.controls.controllers.*;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Subsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import com.revrobotics.spark.SparkMax;
+//import com.revrobotics.spark.SparkMax;
+//import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -27,16 +31,36 @@ public class Robot extends TimedRobot {
   private final OperatorController m_operatorController = new OperatorController(1, true, true);
   //private final SparkMax Elevator = new SparkMax(3, MotorType.kBrushless);
     // Robot subsystems
-  //private List<Subsystem> m_allSubsystems = new ArrayList<>();
+  private List<Subsystem> m_allSubsystems = new ArrayList<>();
   //private final Drivetrain m_drive = Drivetrain.getInstance();
-  //private final Coral m_coral = Coral.getInstance();
-  //private final Algae m_algae = Algae.getInstance();
+  private final Coral m_coral = Coral.getInstance();
+  private final Algae m_algae = Algae.getInstance();
   private final Elevator m_elevator = Elevator.getInstance();
 
   boolean scorePressed = false;
   public Robot() {
     m_robotContainer = new RobotContainer();
   }
+
+@Override
+  public void robotInit() {
+    CameraServer.startAutomaticCapture();
+
+    //setupLogging();
+
+    // Add all subsystems to the list
+    // m_allSubsystems.add(m_compressor);
+    //m_allSubsystems.add(m_drive);
+    m_allSubsystems.add(m_coral);
+    m_allSubsystems.add(m_algae);
+    m_allSubsystems.add(m_elevator);
+
+    //m_allSubsystems.add(m_leds);
+
+    // Set up the Field2d object for simulation
+    //SmartDashboard.putData("Field", m_field);
+  }
+
 
   @Override
   public void robotPeriodic() {
@@ -113,48 +137,48 @@ public class Robot extends TimedRobot {
     // FINAL OPERATOR CONTROLS
     if (m_operatorController.getWantsElevatorStow()) {
       m_elevator.goToElevatorStow();
-      //m_algae.stow();
+      m_algae.stow();
     } else if (m_operatorController.getWantsElevatorL2()) {
       m_elevator.goToElevatorL2();
-      //m_algae.stow();
+      m_algae.stow();
     } else if (m_operatorController.getWantsElevatorL3()) {
       m_elevator.goToElevatorL3();
-      //m_algae.stow();
+      m_algae.stow();
     } else if (m_operatorController.getWantsElevatorL4()) {
       m_elevator.goToElevatorL4();
-      //m_algae.stow();
+      m_algae.stow();
     } else if (m_operatorController.getWantsA1()) {
       m_elevator.goToAlgaeLow();
-      //m_algae.grabAlgae();
+      m_algae.grabAlgae();
     } else if (m_operatorController.getWantsA2()) {
       m_elevator.goToAlgaeHigh();
-      //m_algae.grabAlgae();
+      m_algae.grabAlgae();
     } else if (m_operatorController.getWantsStopAlgae()) {
-      //m_algae.stopAlgae();
-      //m_algae.stow();
+      m_algae.stopAlgae();
+      m_algae.stow();
     } else if (m_operatorController.getWantsGroundAlgae()) {
-      //m_algae.groundIntake();
+      m_algae.groundIntake();
     } else if (m_operatorController.getWantsCoralIntake()) {
-      //m_coral.intake();
+      m_coral.intake();
     }
 
     // if (m_driverController.getWantsScoreCoral()) {
-     if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
+     //if (m_elevator.getState() == Elevator.ElevatorState.STOW) {
      //m_coral.scoreL1();
     
-     } 
+     //} 
      
      //else if (m_driverController.getWantsIntakeCoral()) {
     // m_coral.intake();
      //m_elevator.goToElevatorStow();
      //}
 
-    if (m_operatorController.getWantsElevatorReset()) //||
+    //if (m_operatorController.getWantsElevatorReset()) //||
     // m_driverController.getWantsElevatorReset()) 
-    {
+    //{
     // RobotTelemetry.print("Resetting elevator");
-     m_elevator.reset();
-    }
+     //m_elevator.reset();
+    //}
     
   }
 
